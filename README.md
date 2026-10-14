@@ -1,0 +1,1 @@
+# WEB-played-games-aggregator
