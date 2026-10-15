@@ -3,7 +3,7 @@
 ## English
 
 ### 📜 Description
-My Games Stats is a small static website that shows everything I've played: total hours, days of playtime, achievements and trophies across Steam, PS5 / PS4, PS3, PS2 and Xbox 360. Cover art, sorting and a light/dark theme included. No more "so what have you actually played?" – just open the page.
+My Games Stats is a small static website that shows everything I've played: total hours, days of playtime, achievements and trophies across Steam, PS2, PS3, Xbox 360, PSP and PC games. Cover art, sorting and a light/dark theme included. No more "so what have you actually played?" – just open the page.
 
 Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 ![Preview](preview.png)
@@ -11,7 +11,7 @@ Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 ### 🎮 Features
 - **Totals at a glance** – Big numbers for hours, days of playtime, achievements & trophies and number of games.
 - **Steam & PS5 / PS4** – Playtime, achievements / trophies, a completion bar and cover art for every game.
-- **Other Panel** – Xbox 360, PS3, PS2, PSP and PC in tabs (a hand-written list; PS3 titles are also picked up from PSN).
+- **Other Panel** – Xbox 360, PS3, PS2, PSP and PC in tabs.
 - **Sorting** – Recently played, most played, most achievements / trophies, completion and A–Z.
 - **Show All** – The first 24 games are shown, the rest opens with one click.
 - **Responsive Design** – Panels open on hover on desktop and on tap on phones.
@@ -52,14 +52,14 @@ Requirements: [Node.js](https://nodejs.org) 18 or newer.
 ## Українська
 
 ### 📜 Опис
-My Games Stats – це маленький статичний сайт, який показує все, у що я грав: загальні години, дні гри, ачівки та трофеї зі Steam, PS5 / PS4, PS3, PS2 і Xbox 360. Є обкладинки, сортування та світла/темна тема. Більше не треба питати «а в що ти взагалі грав?» – достатньо відкрити сторінку.
+My Games Stats – це маленький статичний сайт, який показує все, у що я грав: загальні години, дні гри, ачівки та трофеї зі Steam, PS2, PS3, Xbox 360, PSP і PC ігри. Є обкладинки, сортування та світла/темна тема. Більше не треба питати «а в що ти взагалі грав?» – достатньо відкрити сторінку.
 
 Живий приклад: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 
 ### 🎮 Функції
 - **Підсумки одразу** – Великі цифри: години, дні гри, ачівки з трофеями та кількість ігор.
 - **Steam і PS5 / PS4** – Час гри, ачівки / трофеї, смужка проходження та обкладинка кожної гри.
-- **Панель інших платформ** – Xbox 360, PS3, PS2, PSP і PC у вкладках (список вручну; PS3-ігри також підтягуються з PSN).
+- **Панель інших платформ** – Xbox 360, PS3, PS2, PSP і PC у вкладках.
 - **Сортування** – Нещодавно зіграні, найбільше часу, найбільше ачівок / трофеїв, проходження та А–Я.
 - **Показати все** – Спочатку 24 гри, решта відкривається одним кліком.
 - **Адаптивний дизайн** – Панелі відкриваються наведенням на комп'ютері й тапом на телефоні.
