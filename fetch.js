@@ -123,30 +123,45 @@ async function fetchPsn() {
 
   // 2) Play time (PS4/PS5 only). If this fails we just skip hours.
   const hoursByName = {}, lastByName = {};
+  let psnApps = [];
   try {
     const played = [];
     for (let offset = 0, i = 0; i < 20; i++) {
       const r = await psn.getUserPlayedGames(auth, "me", { limit: 200, offset });
-      played.push(...(r.titles || []));
-      if (!r.nextOffset || !(r.titles || []).length) break;
-      offset = r.nextOffset;
+      const batch = r.titles || [];
+      played.push(...batch);
+      const total = r.totalItemCount;
+      if (!batch.length || (total != null && played.length >= total) || (r.nextOffset == null && batch.length < 200)) break;
+      offset = r.nextOffset ?? offset + batch.length;
     }
-    for (const p of played) { const k = norm(p.name); hoursByName[k] = (hoursByName[k] || 0) + isoToHours(p.playDuration); lastByName[k] = Math.max(lastByName[k] || 0, Date.parse(p.lastPlayedDateTime) || 0); }
-    console.log(`PSN: play time found for ${played.length} games`);
-    var playedList = played;
+    // Media / streaming apps (categories like *_nongame_mini_app, *_media_app) are not games: keep them out of the totals
+    const isApp = c => /nongame|_app$/i.test(c || "");
+    const byCat = {};
+    for (const p of played) {
+      const h = isoToHours(p.playDuration), c = p.category || "(none)";
+      byCat[c] = byCat[c] || { games: 0, hours: 0 };
+      byCat[c].games++; byCat[c].hours += h;
+      if (isApp(c)) { psnApps.push({ n: p.name, h, category: c }); continue; }
+      const k = norm(p.name);
+      hoursByName[k] = (hoursByName[k] || 0) + h;
+      lastByName[k] = Math.max(lastByName[k] || 0, Date.parse(p.lastPlayedDateTime) || 0);
+    }
+    console.log(`PSN: play time found for ${played.length} titles. Breakdown by category:`);
+    for (const [c, v] of Object.entries(byCat)) console.log(`  ${c}: ${v.games} titles, ${Math.round(v.hours)} h${isApp(c) ? "  (app, not counted)" : ""}`);
+    var playedList = played.filter(p => !isApp(p.category));
   } catch (e) {
     console.warn("PSN: could not read play time, hours will be empty (" + e.message + ")");
     var playedList = [];
   }
 
   const modern = titles.filter(t => /PS4|PS5/.test(t.trophyTitlePlatform));
-  const ps3 = titles.filter(t => /PS3/.test(t.trophyTitlePlatform));
+  const ps3 = titles.filter(t => /PS3/.test(t.trophyTitlePlatform) && !/PS4|PS5/.test(t.trophyTitlePlatform));
   console.log(`PSN: ${modern.length} PS4/PS5 and ${ps3.length} PS3 trophy titles. Downloading covers...`);
 
   const withCover = t => download([t.trophyTitleIconUrl], `covers/psn/${t.npCommunicationId}.png`);
   // The same game on PS4 and PS5 shares one play-time entry: count its hours only once
   const hourOwner = new Set();
-  const hrs = modern.map(t => { const k = norm(t.trophyTitleName); if (hourOwner.has(k)) return 0; hourOwner.add(k); return hoursByName[k] || 0; });
+  const hrs = modern.map(t => { const k = norm(t.trophyTitleName); if (hourOwner.has(k)) return 0; hourOwner.add(k); return Math.round((hoursByName[k] || 0) * 10) / 10; });
   const games = await pool(modern, 5, async (t, i) => ({
     n: t.trophyTitleName,
     h: hrs[i],
@@ -161,7 +176,7 @@ async function fetchPsn() {
     const k = norm(p.name);
     if (known.has(k) || seen.has(k)) continue;
     seen.add(k);
-    const h = isoToHours(p.playDuration);
+    const h = Math.round((hoursByName[k] || 0) * 10) / 10; // all editions of this game combined
     if (h > 0) games.push({ n: p.name, h, a: 0, t: 0, last: Date.parse(p.lastPlayedDateTime) || 0, img: await download([p.imageUrl].filter(Boolean), `covers/psn/${k.slice(0, 60)}.png`) });
   }
   games.sort((x, y) => y.h - x.h || y.a - x.a);
@@ -170,7 +185,7 @@ async function fetchPsn() {
   const trophies = summary.earnedTrophies || {};
   const hours = Math.round(games.reduce((s, g) => s + g.h, 0));
   console.log(`PSN done: ${games.length} PS4/PS5 games, ${hours} h, ${trophies.platinum || 0} platinums`);
-  return { games, ps3: ps3list, trophies, level: summary.trophyLevel };
+  return { games, ps3: ps3list, trophies, level: summary.trophyLevel, apps: psnApps };
 }
 
 /* ---------------- main ---------------- */
