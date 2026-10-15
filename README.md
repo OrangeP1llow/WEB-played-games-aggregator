@@ -6,7 +6,7 @@
 My Games Stats is a small static website that shows everything I've played: total hours, days of playtime, achievements and trophies across Steam, PS5 / PS4, PS3, PS2 and Xbox 360. Cover art, sorting and a light/dark theme included. No more "so what have you actually played?" – just open the page.
 
 Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
-[Preview](preview.png)
+![Preview](preview.png)
 
 ### 🎮 Features
 - **Totals at a glance** – Big numbers for hours, days of playtime, achievements & trophies and number of games.
@@ -43,9 +43,9 @@ Requirements: [Node.js](https://nodejs.org) 18 or newer.
 - Not affiliated with Valve, Sony or Microsoft. Game names and covers belong to their owners.
 
 ### 📧 Credits
-Developer: StanisLove
-Data from: Steam Web API, [psn-api](https://github.com/achievements-app/psn-api)
-Vibe-coded with: Claude (Anthropic) – yes, an AI wrote most of it, and we're not hiding it 😄
+- Developer: StanisLove
+- Data from: Steam Web API, [psn-api](https://github.com/achievements-app/psn-api)
+- Vibe-coded with: Claude (Anthropic) – yes, an AI wrote most of it, and we're not hiding it 😄
 
 ---
 
@@ -91,6 +91,6 @@ My Games Stats – це маленький статичний сайт, який
 - Проєкт не пов'язаний з Valve, Sony чи Microsoft. Назви ігор і обкладинки належать їхнім власникам.
 
 ### 📧 Автори
-Розробник: StanisLove
-Дані: Steam Web API, [psn-api](https://github.com/achievements-app/psn-api)
-Навайбкоджено разом з: Claude (Anthropic) – так, більшість коду написав ШІ, і ми цього не приховуємо 😄
+- Розробник: StanisLove
+- Дані: Steam Web API, [psn-api](https://github.com/achievements-app/psn-api)
+- Навайбкоджено разом з: Claude (Anthropic) – так, більшість коду написав ШІ, і ми цього не приховуємо 😄
