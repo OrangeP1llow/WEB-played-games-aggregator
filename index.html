@@ -15,135 +15,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#eef2f7;--mute:#8d9bb0;--ps1:#0b1f5c;--ps2:#1d4fd8;--st1:#101821;--st2:#1b2838;--st3:#66c0f4;--gold:#f2b84b;--silver:#b8c2cc;--bronze:#c9824a;--plat:#9fe3ff;
+:root{--ink:#eef2f7;--mute:#8d9bb0;--gold:#f2b84b;--silver:#b8c2cc;--bronze:#c9824a;--plat:#9fe3ff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
 html,body{height:100%;margin:0}
 body{background:#080b10;color:var(--ink);font-family:Manrope,system-ui,sans-serif;display:flex;flex-direction:column;overflow-x:hidden}
 .num{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;letter-spacing:-.02em}
+/* header totals */
 header{display:flex;justify-content:center;gap:clamp(1.5rem,6vw,5rem);padding:1.1rem 1rem;background:#080b10;flex-wrap:wrap}
 header div{text-align:center}
 header .num{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1}
 header span.l{display:block;color:var(--mute);font-size:.85rem;margin-top:.25rem}
+/* panels */
 main{flex:1;display:flex;flex-direction:column}
 .row{flex:1 1 0;display:flex;min-height:340px}
-.row+.row{border-top:2px solid #05070b}
-.panel{flex:1 1 0;position:relative;overflow:hidden;cursor:pointer;transition:flex-grow .55s cubic-bezier(.2,.8,.2,1);padding:clamp(1rem,2.5vw,2rem);display:flex;flex-direction:column}
-.panel.ps{background:linear-gradient(160deg,var(--ps2),var(--ps1) 70%)}
-.panel.st{background:radial-gradient(ellipse 80% 70% at 90% 0%,#66c0f433,transparent 65%),linear-gradient(200deg,#16202c,#0a0d13 75%)}
-.row:hover .panel{flex-grow:.7}
-.row .panel:hover,.panel.open{flex-grow:3}
-.panel .head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.panel{--tint:#3d7bff66;flex:1 1 0;position:relative;overflow:hidden;cursor:pointer;transition:flex-grow .55s cubic-bezier(.2,.8,.2,1);padding:clamp(1rem,2.5vw,2rem);display:flex;flex-direction:column;background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#11172a,#080a12)}
+.panel.st{--tint:#66c0f433;background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(200deg,#16202c,#0a0d13 75%)}
+.panel.other{--tint:#f0a63a55}
+.panel.ps::before,.panel.other::before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 40px,#ffffff08 40px 80px);filter:blur(18px);animation:wv 14s linear infinite;pointer-events:none}
+@keyframes wv{to{transform:translateX(80px)}}
+.row.active .panel{flex-grow:.7}
+.row .panel.open{flex-grow:3}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
 .panel h2{margin:0;font-size:clamp(1.8rem,4.5vw,3.4rem);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:-.03em}
 .panel .sum{color:var(--mute);font-size:.95rem}
-.panel.ps .sum{color:#b9c8f5}
+.panel.ps .sum,.panel.other .sum{color:#b9c8f5}
 .sum b{color:var(--ink);font-weight:600}
-.ui{margin-top:1.2rem;opacity:0;transform:translateY(14px);transition:opacity .35s .15s,transform .35s .15s;pointer-events:none;flex:1;min-height:0;overflow:auto}
-.panel:hover .ui,.panel.open .ui{opacity:1;transform:none;pointer-events:auto}
+/* hidden until the panel is open; fades out fast, fades in after the panel has grown */
+.ui{margin-top:1.2rem;opacity:0;transform:translateY(14px);transition:opacity .12s,transform .12s;pointer-events:none;flex:1;min-height:0;overflow:auto}
+.panel.open .ui{opacity:1;transform:none;pointer-events:auto;transition:opacity .3s .25s,transform .3s .25s}
 .hint{position:absolute;left:clamp(1rem,2.5vw,2rem);bottom:1.2rem;color:var(--mute);font-size:.85rem;transition:opacity .2s}
-.panel:hover .hint,.panel.open .hint{opacity:0}
-/* PlayStation: horizontal shelf */
-.shelf{display:flex;gap:.8rem;overflow-x:auto;padding-bottom:.8rem}
-.tile{flex:0 0 150px;aspect-ratio:3/4;border-radius:14px;padding:.8rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative;transition:transform .2s,box-shadow .2s;background:var(--c)}
-.tile:hover{transform:scale(1.06);box-shadow:0 0 0 3px #fff,0 12px 30px #0008}
-.tile .t{font-weight:600;font-size:.95rem;line-height:1.2;text-shadow:0 1px 6px #0009}
-.tile .h{font-size:.8rem;color:#ffffffcc;margin-top:.2rem}
-.tile .bar{height:4px;background:#0006;border-radius:2px;margin-top:.5rem;overflow:hidden}
-.tile .bar i{display:block;height:100%;background:#fff}
+.panel.open .hint{opacity:0}
+/* trophy counts */
 .troph{display:flex;gap:1.2rem;margin-top:1.1rem;flex-wrap:wrap}
 .troph div{display:flex;align-items:center;gap:.5rem;font-size:.95rem}
 .troph .d{width:14px;height:14px;border-radius:50%}
-/* Steam: list + detail */
-.lib{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:1rem;height:100%;min-height:260px}
-.list{background:#0d141c;border-radius:8px;padding:.4rem;overflow:auto}
-.list button{all:unset;display:block;width:100%;padding:.55rem .7rem;border-radius:5px;font-size:.9rem;cursor:pointer;color:#c3ccd6;box-sizing:border-box}
-.list button:hover,.list button[aria-selected=true]{background:#2a475e;color:#fff}
-.list button:focus-visible{outline:2px solid var(--st3)}
-.detail{border-radius:8px;padding:1.2rem;background:linear-gradient(135deg,#2a475e55,#0d141c);display:flex;flex-direction:column;gap:.9rem}
-.detail h3{margin:0;font-size:1.6rem;font-family:"Bricolage Grotesque",sans-serif}
-.stats{display:flex;gap:2rem;flex-wrap:wrap}
-.stats .num{font-size:2rem;color:var(--st3);display:block;line-height:1}
-.stats span.l{color:var(--mute);font-size:.8rem}
-.prog{height:8px;background:#0d141c;border-radius:4px;overflow:hidden}
-.prog i{display:block;height:100%;background:linear-gradient(90deg,#4c9b3f,var(--st3))}
-.ach{display:flex;gap:.5rem;flex-wrap:wrap}
-.ach span{width:38px;height:38px;border-radius:6px;background:#2a475e;display:grid;place-items:center;font-size:.8rem;color:#9fb6c9}
-.ach span.on{background:#3f7a2f;color:#fff}
-@media (max-width:760px){.row{flex-direction:column;flex:none;min-height:0}.lib{grid-template-columns:1fr}.panel{flex-basis:auto}.row:hover .panel{flex-grow:1}.row .panel:hover,.panel.open{flex-grow:4}}
-/* PS2 */
-.panel.ps2{background:radial-gradient(circle at 75% 15%,#17395e,#05080f 70%)}
-.panel.ps2 .sum{color:#7fa8cc}
-.mc{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.6rem}
-.slot{background:#0a1626;border:1px solid #2b5d8a;border-radius:3px;padding:.5rem;font-size:.82rem}
-.slot .ic{aspect-ratio:1;border-radius:2px;margin-bottom:.4rem;background:linear-gradient(145deg,var(--c),#000a);display:grid;place-items:center;font:800 1.6rem "Bricolage Grotesque",sans-serif;color:#ffffffcc}
-.slot b{display:block;font-weight:600}
-.slot span{color:#7fa8cc}
-/* PS3 */
-.panel.ps3{background:linear-gradient(120deg,#1d1040,#0b2c5a 55%,#0b1226)}
-.panel.ps3 .sum{color:#a9b7e6}
+/* "Games N" label */
 .cats{display:flex;gap:1.6rem;color:#8f9fd6;font-size:.9rem;margin-bottom:.7rem}
 .cats .on{color:#fff;font-weight:600;border-bottom:2px solid #fff;padding-bottom:2px}
-.xrow{display:flex;align-items:center;gap:.8rem;padding:.4rem .6rem;border-radius:4px;color:#cfd8f5;font-size:.92rem;transition:transform .2s,background .2s}
-.xrow:hover{background:#ffffff22;transform:translateX(10px);color:#fff}
-.xrow .ic{width:34px;height:34px;border-radius:5px;background:var(--c);flex:none}
-.xrow em{margin-left:auto;font-style:normal;color:#9db0ea;font-size:.82rem;padding-left:1rem}
-/* Xbox 360: blades */
-.panel.x360{background:radial-gradient(ellipse 80% 70% at 90% 0%,#9bd30033,transparent 65%),linear-gradient(180deg,#1b2216,#0a0d09)}
-.panel.x360 .sum{color:#b6c79a}
-.blades{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.6rem}
-.blade{flex:0 0 135px;border-radius:6px;overflow:hidden;background:#e8ece2;color:#1b2013}
-.blade .top{height:76px;background:linear-gradient(150deg,var(--c),#0007)}
-.blade .bd{padding:.5rem .6rem;font-size:.8rem}
-.blade b{display:block;font-weight:600;line-height:1.2;margin-bottom:.25rem}
-.blade .g{color:#4f8200;font-weight:700}
-/* PlayStation: shared style for PS, PS2, PS3 */
-.panel.ps,.panel.ps2,.panel.ps3{background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#11172a,#080a12)}
-.panel.ps{--tint:#3d7bff66}
-.panel.ps3{--tint:#d9467a59}
-.panel.ps2{--tint:#f0a63a55}
-.panel.ps .sum,.panel.ps2 .sum,.panel.ps3 .sum{color:#b9c8f5}
-.shelf,.mc{display:block;overflow:visible;padding:0}
-.xrow{display:flex;align-items:center;gap:.8rem;padding:.5rem .7rem;border-radius:12px;border-left:3px solid transparent;color:#dfe6ff;font-size:.95rem;transition:transform .2s,background .2s,border-color .2s}
-.xrow:hover{transform:translateX(10px);background:linear-gradient(90deg,#ffffff26,#ffffff08);border-left-color:var(--gc);color:#fff}
-.xrow .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-size:1.2rem;background:#ffffff12;box-shadow:inset 0 0 0 1px #ffffff2e;color:var(--gc);flex:none}
-.xrow:hover .ic{box-shadow:inset 0 0 0 1px var(--gc),0 0 14px var(--gc)}
-.xrow .nm{flex:1;min-width:0;font-weight:600}
-.xrow small{display:block;font-weight:400;color:#9db0ea;font-size:.78rem}
-.xrow .tb{width:80px;height:4px;border-radius:2px;background:#ffffff22;overflow:hidden;flex:none}
-.xrow .tb i{display:block;height:100%;background:var(--gc)}
-/* XMB list with covers */
-.panel.ps::before,.panel.ps2::before,.panel.ps3::before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 40px,#ffffff08 40px 80px);filter:blur(18px);animation:wv 14s linear infinite;pointer-events:none}
-@keyframes wv{to{transform:translateX(80px)}}
-.xlist{display:flex;flex-direction:column}
-.xi{display:flex;align-items:center;gap:.9rem;min-height:68px;padding:.2rem .6rem;border-radius:8px;transition:background .25s,opacity .25s}
-.xlist:hover .xi{opacity:.5}
-.xlist .xi:hover{opacity:1;background:linear-gradient(90deg,#ffffff26,#ffffff00)}
-.xi .cv{width:46px;aspect-ratio:3/4;border-radius:5px;overflow:hidden;background:linear-gradient(160deg,var(--c),#000b);display:grid;place-items:center;font:800 1.2rem "Bricolage Grotesque",sans-serif;color:#ffffffd0;flex:none;transform-origin:left center;transition:transform .25s,box-shadow .25s}
-.xi:hover .cv{transform:scale(1.35);box-shadow:0 10px 26px #000a,0 0 0 2px #ffffff55}
-.xi .cv img{width:100%;height:100%;object-fit:cover}
-.xi .nm{flex:1;min-width:0;font-weight:600;transition:transform .25s}
-.xi:hover .nm{transform:translateX(18px)}
-.xi small{display:block;font-weight:400;color:#9db0ea;font-size:.8rem;margin-top:.1rem}
-.xi .tb{width:90px;height:4px;border-radius:2px;background:#ffffff22;overflow:hidden;flex:none}
-.xi .tb i{display:block;height:100%;background:#6aa7ff}
-@media (prefers-reduced-motion:reduce){.panel::before{animation:none}}
-/* Retro panel with tabs */
-.panel.retro{--tint:#f0a63a55;background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#11172a,#080a12)}
-.panel.retro::before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 40px,#ffffff08 40px 80px);filter:blur(18px);animation:wv 14s linear infinite;pointer-events:none}
-.panel.retro .sum{color:#b9c8f5}
-.tabs{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap}
-.tabs button{all:unset;cursor:pointer;padding:.4rem .9rem;border-radius:999px;background:#ffffff14;font-size:.9rem;color:#cfd8f5;transition:background .2s}
-.tabs button:hover{background:#ffffff2a}
-.tabs button[aria-selected=true]{background:#fff;color:#0a0d13;font-weight:600}
-.tabs button:focus-visible{outline:2px solid #fff}
+/* tabs (Other panel) and sort bar */
+.tabs,.sort{display:flex;gap:.4rem;flex-wrap:wrap}
+.tabs{margin-bottom:1rem}
+.sort{margin-bottom:.8rem}
+.tabs button,.sort button{all:unset;cursor:pointer;padding:.3rem .75rem;border-radius:999px;background:#ffffff14;font-size:.8rem;color:#cfd8f5;transition:background .2s}
+.tabs button{padding:.4rem .9rem;font-size:.9rem}
+.tabs button:hover,.sort button:hover{background:#ffffff2a}
+.tabs button[aria-selected=true],.sort button[aria-pressed=true]{background:#fff;color:#0a0d13;font-weight:600}
 .tabs span{opacity:.6;margin-left:.25rem}
-/* One shared cover-card style for every platform */
+.tabs button:focus-visible,.sort button:focus-visible,.more:focus-visible{outline:2px solid #fff}
+/* cover cards (same for every platform) */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:.8rem}
-.card{border-radius:8px;overflow:hidden;background:#2b3342;color:#e8edf7;transition:transform .2s,box-shadow .2s,opacity .2s}
-.cards .card:hover{opacity:1;transform:translateY(-6px);box-shadow:0 14px 30px #000a,0 0 0 2px #ffffffaa}
+.card{display:flex;flex-direction:column;border-radius:8px;overflow:hidden;background:#2b3342;color:#e8edf7;transition:transform .2s,box-shadow .2s}
+.cards .card:hover{transform:translateY(-6px);box-shadow:0 14px 30px #000a,0 0 0 2px #ffffffaa}
 .card .cvr{position:relative;overflow:hidden;flex:none;aspect-ratio:3/4;background:linear-gradient(160deg,var(--c),#000b);display:grid;place-items:center;font:800 2rem "Bricolage Grotesque",sans-serif;color:#ffffffd0}
 .card .cvr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.card{display:flex;flex-direction:column}
 .card .bd{padding:.5rem .6rem .6rem;font-size:.8rem;flex:1;display:flex;flex-direction:column}
 .card .bd b{display:block;font-weight:600;line-height:1.2;overflow-wrap:anywhere}
 .card small{display:block;color:#9aa7bf;margin:.15rem 0 .4rem}
@@ -151,49 +76,39 @@ main{flex:1;display:flex;flex-direction:column}
 .card .tb i{display:block;height:100%;background:#5aa84a}
 .more{all:unset;cursor:pointer;margin:1rem auto 0;display:block;text-align:center;padding:.5rem 1.2rem;border-radius:999px;background:#ffffff1c}
 .more:hover{background:#ffffff33}
-.more:focus-visible{outline:2px solid #fff}
 .empty{color:var(--mute);padding:.8rem}
-/* Sort bar */
-.sort{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
-.sort button{all:unset;cursor:pointer;padding:.3rem .75rem;border-radius:999px;background:#ffffff14;font-size:.8rem;color:#cfd8f5;transition:background .2s}
-.sort button:hover{background:#ffffff2a}
-.sort button[aria-pressed=true]{background:#fff;color:#0a0d13;font-weight:600}
-.sort button:focus-visible{outline:2px solid #fff}
-@media (hover:none),(max-width:760px){.hint{position:static;margin-top:.7rem}.panel.open .hint{display:none}}
-@media (hover:none){.panel:not(.open) .ui{display:none}.panel::before{animation:none}.panel:hover .hint{opacity:1}}
-@media (max-width:760px){.panel{min-height:150px;padding:1.4rem 1.2rem;justify-content:center}.panel.open{justify-content:flex-start}.panel h2{font-size:2.4rem}.panel .sum{font-size:1.05rem}.hint{font-size:.95rem}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-/* real covers */
-.list{max-height:60vh}
-.list button{display:flex;align-items:center;gap:.6rem}
-.list img{width:30px;height:40px;object-fit:cover;border-radius:3px;flex:none}
-.list span{margin-left:auto;color:#8d9bb0;font-size:.75rem;padding-left:.5rem;white-space:nowrap}
-.detail .dh{display:flex;gap:1.2rem;align-items:flex-start}
-.detail .dh h3{margin:0 0 .8rem}
-.detail .cvr{width:120px;aspect-ratio:3/4;object-fit:cover;border-radius:6px;box-shadow:0 10px 30px #000a;flex:none}
-.blade .top{height:150px}
-.blade .top img{width:100%;height:100%;object-fit:cover;display:block}
 footer{text-align:center;color:var(--mute);font-size:.8rem;padding:.6rem}
-/* Smooth open/close: hide content fast when collapsing, and keep its width fixed so it never reflows while panels resize */
-.ui{transition:opacity .12s,transform .12s}
-.panel:hover .ui,.panel.open .ui{transition:opacity .3s .25s,transform .3s .25s}
+/* desktop: fixed content width so nothing reflows while panels resize */
 @media (hover:hover) and (min-width:761px){.ui{width:calc(68vw - 2*clamp(1rem,2.5vw,2rem) - 1.5rem)}}
-/* Mobile header: 2x2 grid, achievements under hours, games under days */
-@media (max-width:760px){header{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.5rem;padding:1rem 1.2rem}}
-/* Light theme (follows the device setting) */
+/* touch devices and narrow screens */
+@media (hover:none),(max-width:760px){.hint{position:static;margin-top:.7rem}.panel.open .hint{display:none}}
+@media (hover:none){.panel:not(.open) .ui{display:none}.panel::before{animation:none}}
+@media (max-width:760px){
+header{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.5rem;padding:1rem 1.2rem}
+.row{flex-direction:column;flex:none;min-height:0}
+.panel{flex-basis:auto;min-height:150px;padding:1.4rem 1.2rem;justify-content:center}
+.panel.open{justify-content:flex-start}
+.row.active .panel{flex-grow:1}
+.row .panel.open{flex-grow:4}
+.panel h2{font-size:2.4rem}
+.panel .sum{font-size:1.05rem}
+.hint{font-size:.95rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.panel::before{animation:none}}
+/* light theme (follows the device setting) */
 @media (prefers-color-scheme:light){
 :root{--ink:#161b26;--mute:#5d6878}
 body,header{background:#f2f4f9}
-.panel.ps,.panel.ps2,.panel.ps3,.panel.retro{background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#eef2fc,#dae3f4)}
-.panel.st{background:radial-gradient(ellipse 80% 70% at 90% 0%,#66c0f455,transparent 65%),linear-gradient(200deg,#e9f0f7,#d3dfeb)}
-.panel.ps::before,.panel.ps2::before,.panel.ps3::before,.panel.retro::before{background:repeating-linear-gradient(115deg,transparent 0 40px,#00000008 40px 80px)}
-.panel .sum,.panel.ps .sum,.panel.ps2 .sum,.panel.ps3 .sum,.panel.retro .sum{color:#4c5a76}
+.panel{background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#eef2fc,#dae3f4)}
+.panel.st{--tint:#66c0f455;background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(200deg,#e9f0f7,#d3dfeb)}
+.panel.ps::before,.panel.other::before{background:repeating-linear-gradient(115deg,transparent 0 40px,#00000008 40px 80px)}
+.panel .sum,.panel.ps .sum,.panel.other .sum{color:#4c5a76}
 .cats{color:#5d6a8c}
 .cats .on{color:#161b26;border-bottom-color:#161b26}
-.sort button,.tabs button{background:#0000000f;color:#33405c}
-.sort button:hover,.tabs button:hover{background:#0000001c}
-.sort button[aria-pressed=true],.tabs button[aria-selected=true]{background:#161b26;color:#fff}
-.sort button:focus-visible,.tabs button:focus-visible,.more:focus-visible{outline-color:#161b26}
+.tabs button,.sort button{background:#0000000f;color:#33405c}
+.tabs button:hover,.sort button:hover{background:#0000001c}
+.tabs button[aria-selected=true],.sort button[aria-pressed=true]{background:#161b26;color:#fff}
+.tabs button:focus-visible,.sort button:focus-visible,.more:focus-visible{outline-color:#161b26}
 .more{background:#00000012}
 .more:hover{background:#0000001f}
 .card{background:#fff;color:#161b26;box-shadow:0 1px 3px #0002}
@@ -227,8 +142,8 @@ body,header{background:#f2f4f9}
     </div>
     <div class="hint">Hover to open the library</div>
   </section>
-  <section class="panel retro" tabindex="0" aria-label="Retro consoles">
-    <div class="head"><h2>Retro</h2><div class="sum" id="rtSum"></div></div>
+  <section class="panel other" tabindex="0" aria-label="Other platforms">
+    <div class="head"><h2>Other</h2><div class="sum" id="rtSum"></div></div>
     <div class="ui">
       <div class="tabs" id="tabs" role="tablist"></div>
       <div id="rt"></div>
@@ -247,12 +162,13 @@ const M=window.MANUAL||{};
 const st=S.games||[];
 const ps=(window.STATS&&window.STATS.psn&&window.STATS.psn.games)||M.ps5||[];
 const P=window.STATS&&window.STATS.psn;
-const p2=M.ps2||[],xb=M.x360||[];
+const p2=M.ps2||[],xb=M.x360||[],psp=M.psp||[],pcg=M.pc||[];
 const have=new Set((M.ps3||[]).map(g=>g.n.toLowerCase()));
 const p3=(M.ps3||[]).concat(((P&&P.ps3)||[]).filter(g=>!have.has(g.n.toLowerCase())));
 const sum=(a,k)=>a.reduce((s,g)=>s+(g[k]||0),0), $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=["#7a2d2d","#2d5f7a","#6b4a1f","#3b6b3a","#5b3fb0","#8a5a2d"];
+const hc=s=>[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0)%6;
 const psH=sum(ps,"h"),stH=sum(st,"h"),psA=sum(ps,"a"),stA=sum(st,"a");
 const fmt=n=>Math.round(n).toLocaleString("en-US");
 const f1=n=>n.toLocaleString("en-US",{minimumFractionDigits:1,maximumFractionDigits:1}); // always one decimal, dot separator
@@ -262,7 +178,7 @@ const psHr=Math.round(psH),stHr=Math.round(stH),totH=psHr+stHr;
 $("tH").textContent=fmt(totH);
 $("tDays").textContent=f1(totH/24);
 $("tA").textContent=fmt(psA+stA);
-$("tG").textContent=ps.length+st.length+p2.length+p3.length+xb.length;
+$("tG").textContent=ps.length+st.length+p2.length+p3.length+xb.length+psp.length+pcg.length;
 $("psSum").innerHTML=`<b>${ps.length}</b> games · <b>${fmt(psH)} h</b> (${dd(psHr)}) · <b>${fmt(psA)}</b> trophies`;
 $("stSum").innerHTML=`<b>${st.length}</b> games · <b>${fmt(stH)} h</b> (${dd(stHr)}) · <b>${fmt(stA)}</b> achievements`;
 if(window.STATS&&window.STATS.updated){const d=new Date(window.STATS.updated),p=n=>String(n).padStart(2,"0");$("upd").textContent=`🔄 Updated: ${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`}
@@ -270,14 +186,13 @@ if(window.STATS&&window.STATS.updated){const d=new Date(window.STATS.updated),p=
 const cards=(a,full,limit)=>{
  if(!a.length)return `<div class="empty">Nothing here yet. Add games in manual.js</div>`;
  const list=limit?a.slice(0,limit):a;
- return `<div class="cats"><span class="on">Games</span><span>${a.length}</span></div><div class="cards">`+list.map((g,i)=>{
+ return `<div class="cats"><span class="on">Games</span><span>${a.length}</span></div><div class="cards">`+list.map(g=>{
   const meta=full?[g.h?`${f1(g.h)} h`:"",g.t?`${g.a}/${g.t}`:""].filter(Boolean).join(" · "):"";
-  return `<div class="card" title="${esc(g.n)}" style="--c:${g.c||col[i%6]}"><div class="cvr">${g.img?`<img src="${esc(g.img)}" alt="" loading="lazy">`:`<b>${esc(g.n[0]||"?")}</b>`}</div><div class="bd"><b>${esc(g.n)}</b>${meta?`<small>${meta}</small>`:""}${full&&g.t?`<div class="tb"><i style="width:${g.a/g.t*100}%"></i></div>`:""}</div></div>`}).join("")+`</div>`;
+  return `<div class="card" title="${esc(g.n)}" style="--c:${g.c||col[hc(g.n)]}"><div class="cvr">${g.img?`<img src="${esc(g.img)}" alt="" loading="lazy">`:`<b>${esc(g.n[0]||"?")}</b>`}</div><div class="bd"><b>${esc(g.n)}</b>${meta?`<small>${meta}</small>`:""}${full&&g.t?`<div class="tb"><i style="width:${g.a/g.t*100}%"></i></div>`:""}</div></div>`}).join("")+`</div>`;
 };
-/* PS5/PS4 */
-
+/* PS5/PS4 trophy counts */
 const T=window.STATS&&window.STATS.psn&&window.STATS.psn.trophies;
-$("troph").innerHTML=T?[["plat","Platinum",T.platinum],["gold","Gold",T.gold],["silver","Silver",T.silver],["bronze","Bronze",T.bronze]].map(([k,l,v])=>`<div><i class="d" style="background:var(--${k})"></i><b>${v}</b> ${l}</div>`).join(""):"";
+$("troph").innerHTML=T?[["plat","Platinum",T.platinum||0],["gold","Gold",T.gold||0],["silver","Silver",T.silver||0],["bronze","Bronze",T.bronze||0]].map(([k,l,v])=>`<div><i class="d" style="background:var(--${k})"></i><b>${v}</b> ${l}</div>`).join(""):"";
 /* Sortable lists (Steam and PS5/PS4) */
 const pc=g=>g.t?g.a/g.t:-1;
 const SORTS={
@@ -291,27 +206,37 @@ function sortable(el,data,kind,limit){
  const opts=Object.entries(SORTS).filter(([k])=>k!=="recent"||data.some(g=>g.last));
  const draw=()=>{
   const sorted=data.slice().sort(SORTS[key][1]);
-  el.innerHTML=`<div class="sort">`+opts.map(([k,[l]])=>`<button data-k="${k}" aria-pressed="${k===key}">${k==="ach"?"Most "+kind:l}</button>`).join("")+`</div>`+cards(sorted,true,all?0:limit)+(limit&&!all&&sorted.length>limit?`<button class="more" data-more>Show all ${sorted.length} games</button>`:"");
+  el.innerHTML=`<div class="sort">`+opts.map(([k,[l]])=>`<button data-k="${k}" aria-pressed="${k===key}">${k==="ach"?"Most "+kind:l}</button>`).join("")+`</div>`+cards(sorted,true,all?0:limit)+(limit&&!all&&sorted.length>limit?`<button class="more" data-more>Show all games</button>`:"");
  };
  el.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;e.stopPropagation();if(b.dataset.k){key=b.dataset.k;draw()}else if(b.hasAttribute("data-more")){all=true;draw()}});
  draw();
 }
-sortable($("stGrid"),st,"achievements",24);
-sortable($("shelf"),ps,"trophies",24);
-/* Retro: one panel, tabs for PS2 / PS3 / Xbox 360 (biggest list first) */
-const RT=[{l:"PS2",a:p2,t:"#f0a63a55"},{l:"PS3",a:p3,t:"#d9467a59"},{l:"Xbox 360",a:xb,t:"#9bd30044"}].filter(r=>r.a.length).sort((x,y)=>y.a.length-x.a.length);
-const rtShow=i=>{const r=RT[i];document.querySelector(".panel.retro").style.setProperty("--tint",r.t);$("rt").innerHTML=cards(r.a,false);document.querySelectorAll("#tabs button").forEach((b,j)=>b.setAttribute("aria-selected",j===i))};
-$("rtSum").innerHTML=`<b>${p2.length+p3.length+xb.length}</b> games`;
+sortable($("stGrid"),st,"achievements",30);
+sortable($("shelf"),ps,"trophies",30);
+/* Other: one panel, tabs for Xbox 360 / PS3 / PS2 / PSP / PC (biggest list first) */
+const RT=[{l:"PS2",a:p2,t:"#f0a63a55"},{l:"PS3",a:p3,t:"#d9467a59"},{l:"Xbox 360",a:xb,t:"#9bd30044"},{l:"PSP",a:psp,t:"#2fc4a055"},{l:"PC",a:pcg,t:"#a06cff55"}].filter(r=>r.a.length).sort((x,y)=>y.a.length-x.a.length);
+const rtShow=i=>{const r=RT[i];document.querySelector(".panel.other").style.setProperty("--tint",r.t);$("rt").innerHTML=cards(r.a,false);document.querySelectorAll("#tabs button").forEach((b,j)=>b.setAttribute("aria-selected",j===i))};
+$("rtSum").innerHTML=`<b>${p2.length+p3.length+xb.length+psp.length+pcg.length}</b> games`;
 $("tabs").innerHTML=RT.map((r,i)=>`<button role="tab" data-i="${i}">${r.l}<span>${r.a.length}</span></button>`).join("");
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){e.stopPropagation();rtShow(+b.dataset.i)}});
 if(RT.length)rtShow(0);else $("rt").innerHTML=cards([],false);
-/* no hover on phones: open on tap */
-if(matchMedia("(hover:none)").matches)document.querySelectorAll(".hint").forEach(h=>h.textContent="Tap to open the library");
-document.querySelectorAll(".panel").forEach(p=>{
- const toggle=()=>{const was=p.classList.contains("open");document.querySelectorAll(".panel").forEach(x=>x.classList.remove("open"));if(!was)p.classList.add("open")};
- p.addEventListener("click",e=>{if(e.target.closest(".ui"))return;if(matchMedia("(hover:none)").matches)toggle()});
- p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle()}});
+/* One panel is open at a time. Mouse: hover. Keyboard: focus (Tab). Touch: tap. */
+const touch=matchMedia("(hover:none)").matches;
+if(touch)document.querySelectorAll(".hint").forEach(h=>h.textContent="Tap to open the library");
+const rowEl=document.querySelector(".row"),panels=[...document.querySelectorAll(".panel")];
+const setOpen=p=>{panels.forEach(x=>x.classList.toggle("open",x===p));rowEl.classList.toggle("active",!!p)};
+let kb=false; // true while the user is navigating with the keyboard
+addEventListener("keydown",e=>{if(e.key==="Tab")kb=true});
+addEventListener("pointerdown",()=>{kb=false});
+addEventListener("mousemove",()=>{kb=false});
+panels.forEach(p=>{
+ if(!touch){
+  p.addEventListener("mouseenter",()=>setOpen(p));
+  p.addEventListener("focusin",()=>{if(kb)setOpen(p)});
+ }
+ p.addEventListener("click",e=>{if(touch&&!e.target.closest(".ui"))setOpen(p.classList.contains("open")?null:p)});
 });
+rowEl.addEventListener("mouseleave",()=>{if(!touch&&!kb)setOpen(null)});
 </script>
 </body>
 </html>

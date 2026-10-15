@@ -11,7 +11,7 @@ Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 ### 🎮 Features
 - **Totals at a glance** – Big numbers for hours, days of playtime, achievements & trophies and number of games.
 - **Steam & PS5 / PS4** – Playtime, achievements / trophies, a completion bar and cover art for every game.
-- **Retro Panel** – Xbox 360, PS3 and PS2 in tabs (a hand-written list; PS3 titles are also picked up from PSN).
+- **Other Panel** – Xbox 360, PS3, PS2, PSP and PC in tabs (a hand-written list; PS3 titles are also picked up from PSN).
 - **Sorting** – Recently played, most played, most achievements / trophies, completion and A–Z.
 - **Show All** – The first 24 games are shown, the rest opens with one click.
 - **Responsive Design** – Panels open on hover on desktop and on tap on phones.
@@ -22,12 +22,12 @@ Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 - **Open a panel** – Hover over it (desktop) or tap it (phone)
 - **Sort games** – Buttons above the cards in the Steam and PS5 / PS4 panels
 - **See the whole library** – "Show all N games" button under the cards
-- **Switch retro platform** – Tabs inside the Retro panel
-- **Add PS2 / PS3 / Xbox 360 games** – Edit the lists in `manual.js`
+- **Switch other platform** – Tabs inside the Other panel
+- **Add PS2 / PS3 / Xbox 360 / PSP / PC games** – Edit the lists in `manual.js`
 - **Refresh the data** – Run `node fetch.js` again
 
 ### ⚙️ How It Works
-`fetch.js` runs on your own computer, asks Steam and PlayStation for your data, downloads cover art and writes `stats.js`. `index.html` reads `stats.js` and `manual.js` and renders everything, so your keys never leave your machine. Hours and days count Steam and PS5 / PS4 only (retro platforms are plain lists), and days are simply hours divided by 24.
+`fetch.js` runs on your own computer, asks Steam and PlayStation for your data, downloads cover art and writes `stats.js`. `index.html` reads `stats.js` and `manual.js` and renders everything, so your keys never leave your machine. Hours and days count Steam and PS5 / PS4 only (other platforms are plain lists), and days are simply hours divided by 24.
 
 ### 🛠️ Installation
 Requirements: [Node.js](https://nodejs.org) 18 or newer.
@@ -59,7 +59,7 @@ My Games Stats – це маленький статичний сайт, який
 ### 🎮 Функції
 - **Підсумки одразу** – Великі цифри: години, дні гри, ачівки з трофеями та кількість ігор.
 - **Steam і PS5 / PS4** – Час гри, ачівки / трофеї, смужка проходження та обкладинка кожної гри.
-- **Ретро-панель** – Xbox 360, PS3 і PS2 у вкладках (список вручну; PS3-ігри також підтягуються з PSN).
+- **Панель інших платформ** – Xbox 360, PS3, PS2, PSP і PC у вкладках (список вручну; PS3-ігри також підтягуються з PSN).
 - **Сортування** – Нещодавно зіграні, найбільше часу, найбільше ачівок / трофеїв, проходження та А–Я.
 - **Показати все** – Спочатку 24 гри, решта відкривається одним кліком.
 - **Адаптивний дизайн** – Панелі відкриваються наведенням на комп'ютері й тапом на телефоні.
@@ -70,12 +70,12 @@ My Games Stats – це маленький статичний сайт, який
 - **Відкрити панель** – Наведіть курсор (комп'ютер) або торкніться (телефон)
 - **Відсортувати ігри** – Кнопки над картками в панелях Steam і PS5 / PS4
 - **Побачити всю бібліотеку** – Кнопка «Show all N games» під картками
-- **Змінити ретро-платформу** – Вкладки всередині панелі Retro
-- **Додати ігри PS2 / PS3 / Xbox 360** – Змініть списки в `manual.js`
+- **Змінити іншу платформу** – Вкладки всередині панелі Other
+- **Додати ігри PS2 / PS3 / Xbox 360 / PSP / PC** – Змініть списки в `manual.js`
 - **Оновити дані** – Знову запустіть `node fetch.js`
 
 ### ⚙️ Як це працює
-`fetch.js` запускається на вашому комп'ютері, питає у Steam і PlayStation ваші дані, завантажує обкладинки та записує `stats.js`. `index.html` читає `stats.js` і `manual.js` та малює все на сторінці, тому ваші ключі ніколи не залишають ваш комп'ютер. Години й дні рахуються лише для Steam і PS5 / PS4 (ретро-платформи це прості списки), а дні це просто години, поділені на 24.
+`fetch.js` запускається на вашому комп'ютері, питає у Steam і PlayStation ваші дані, завантажує обкладинки та записує `stats.js`. `index.html` читає `stats.js` і `manual.js` та малює все на сторінці, тому ваші ключі ніколи не залишають ваш комп'ютер. Години й дні рахуються лише для Steam і PS5 / PS4 (інші платформи це прості списки), а дні це просто години, поділені на 24.
 
 ### 🛠️ Встановлення
 Потрібен [Node.js](https://nodejs.org) 18 або новіший.

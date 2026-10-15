@@ -4,8 +4,12 @@ const fs = require("fs");
 const path = require("path");
 process.chdir(__dirname);
 
+if (!fs.existsSync("config.json")) {
+  console.error("config.json not found. Copy config.example.json to config.json and fill it in.");
+  process.exit(1);
+}
 const cfg = JSON.parse(fs.readFileSync("config.json", "utf8"));
-const isSet = v => v && !/PASTE|ВСТАВТЕ/i.test(v);
+const isSet = v => v && !/PASTE/i.test(v);
 const STEAM_KEY = cfg.steamApiKey, STEAM_ID = cfg.steamId, NPSSO = cfg.psnNpsso;
 const doSteam = isSet(STEAM_KEY) && isSet(STEAM_ID);
 const doPsn = isSet(NPSSO);
@@ -49,16 +53,17 @@ async function download(urls, file) {
 /* ---------------- Steam ---------------- */
 async function steamAchievements(g) {
   const c = cache[g.appid];
-  if (c && c.lp === g.rtime_last_played) return c; // not played since last run: reuse
+  // not played since the last run and cached less than a week ago: reuse
+  if (c && c.lp === g.rtime_last_played && Date.now() - (c.at || 0) < 7 * 864e5) return c;
   const r = await getJson(`https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key=${STEAM_KEY}&steamid=${STEAM_ID}&appid=${g.appid}&format=json`);
   let a = 0, t = 0;
   if (r.ok) {
     const list = (await r.json()).playerstats?.achievements || [];
     t = list.length; a = list.filter(x => x.achieved).length;
   } else if (r.status !== 400) {
-    return { a: 0, t: 0 }; // temporary error: don't cache
+    return c ? { a: c.a, t: c.t } : { a: 0, t: 0 }; // temporary error: keep old values, don't cache
   } // 400 = the game has no achievements
-  return (cache[g.appid] = { lp: g.rtime_last_played, a, t });
+  return (cache[g.appid] = { lp: g.rtime_last_played, a, t, at: Date.now() });
 }
 
 async function fetchSteam() {
@@ -91,6 +96,9 @@ async function fetchSteam() {
 
 /* ---------------- PlayStation ---------------- */
 const norm = s => String(s).toLowerCase().replace(/[™®©]/g, "").replace(/[^\p{L}\p{N}]/gu, "");
+// Matching key: ignores case, punctuation and edition words, so "Game: Complete Edition" matches "Game"
+const EDITION = /\b(edition|remastered|remaster|complete|definitive|goty|game of the year|deluxe|ultimate|digital|standard|director'?s cut|ps4|ps5|version|bundle)\b/gi;
+const key = s => norm(String(s).replace(EDITION, "")) || norm(s);
 const isoToHours = d => {
   const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(d || "");
   return m ? Math.round(((+m[1] || 0) + (+m[2] || 0) / 60 + (+m[3] || 0) / 3600) * 10) / 10 : 0;
@@ -116,7 +124,7 @@ async function fetchPsn() {
   for (let offset = 0; ; ) {
     const r = await psn.getUserTitles(auth, "me", { limit: 100, offset });
     titles.push(...(r.trophyTitles || []));
-    if (!r.nextOffset) break;
+    if (!r.nextOffset || r.nextOffset <= offset) break;
     offset = r.nextOffset;
   }
   const summary = await psn.getUserTrophyProfileSummary(auth, "me");
@@ -142,7 +150,7 @@ async function fetchPsn() {
       byCat[c] = byCat[c] || { games: 0, hours: 0 };
       byCat[c].games++; byCat[c].hours += h;
       if (isApp(c)) { psnApps.push({ n: p.name, h, category: c }); continue; }
-      const k = norm(p.name);
+      const k = key(p.name);
       hoursByName[k] = (hoursByName[k] || 0) + h;
       lastByName[k] = Math.max(lastByName[k] || 0, Date.parse(p.lastPlayedDateTime) || 0);
     }
@@ -161,23 +169,23 @@ async function fetchPsn() {
   const withCover = t => download([t.trophyTitleIconUrl], `covers/psn/${t.npCommunicationId}.png`);
   // The same game on PS4 and PS5 shares one play-time entry: count its hours only once
   const hourOwner = new Set();
-  const hrs = modern.map(t => { const k = norm(t.trophyTitleName); if (hourOwner.has(k)) return 0; hourOwner.add(k); return Math.round((hoursByName[k] || 0) * 10) / 10; });
+  const hrs = modern.map(t => { const k = key(t.trophyTitleName); if (hourOwner.has(k)) return 0; hourOwner.add(k); return Math.round((hoursByName[k] || 0) * 10) / 10; });
   const games = await pool(modern, 5, async (t, i) => ({
     n: t.trophyTitleName,
     h: hrs[i],
     a: sumTroph(t.earnedTrophies), t: sumTroph(t.definedTrophies),
-    last: Math.max(lastByName[norm(t.trophyTitleName)] || 0, Date.parse(t.lastUpdatedDateTime) || 0),
+    last: Math.max(lastByName[key(t.trophyTitleName)] || 0, Date.parse(t.lastUpdatedDateTime) || 0),
     img: await withCover(t)
   }));
   // Games with play time but no trophies
-  const known = new Set(modern.map(t => norm(t.trophyTitleName)));
+  const known = new Set(modern.map(t => key(t.trophyTitleName)));
   const seen = new Set();
   for (const p of playedList) {
-    const k = norm(p.name);
+    const k = key(p.name);
     if (known.has(k) || seen.has(k)) continue;
     seen.add(k);
     const h = Math.round((hoursByName[k] || 0) * 10) / 10; // all editions of this game combined
-    if (h > 0) games.push({ n: p.name, h, a: 0, t: 0, last: Date.parse(p.lastPlayedDateTime) || 0, img: await download([p.imageUrl].filter(Boolean), `covers/psn/${k.slice(0, 60)}.png`) });
+    if (h > 0) games.push({ n: p.name, h, a: 0, t: 0, last: Date.parse(p.lastPlayedDateTime) || 0, img: await download([p.imageUrl].filter(Boolean), `covers/psn/${String(p.titleId || k).replace(/[^\w.-]/g, "").slice(0, 60) || "game"}.png`) });
   }
   games.sort((x, y) => y.h - x.h || y.a - x.a);
 
