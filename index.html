@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
 <title>My Games Stats Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
@@ -166,6 +167,29 @@ main{flex:1;display:flex;flex-direction:column}
 .blade .top{height:150px}
 .blade .top img{width:100%;height:100%;object-fit:cover;display:block}
 footer{text-align:center;color:var(--mute);font-size:.8rem;padding:.6rem}
+/* Mobile header: 2x2 grid, achievements under hours, games under days */
+@media (max-width:760px){header{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.5rem;padding:1rem 1.2rem}}
+/* Light theme (follows the device setting) */
+@media (prefers-color-scheme:light){
+:root{--ink:#161b26;--mute:#5d6878}
+body,header{background:#f2f4f9}
+.panel.ps,.panel.ps2,.panel.ps3,.panel.retro{background:radial-gradient(ellipse 80% 70% at 90% 0%,var(--tint),transparent 65%),linear-gradient(165deg,#eef2fc,#dae3f4)}
+.panel.st{background:radial-gradient(ellipse 80% 70% at 90% 0%,#66c0f455,transparent 65%),linear-gradient(200deg,#e9f0f7,#d3dfeb)}
+.panel.ps::before,.panel.ps2::before,.panel.ps3::before,.panel.retro::before{background:repeating-linear-gradient(115deg,transparent 0 40px,#00000008 40px 80px)}
+.panel .sum,.panel.ps .sum,.panel.ps2 .sum,.panel.ps3 .sum,.panel.retro .sum{color:#4c5a76}
+.cats{color:#5d6a8c}
+.cats .on{color:#161b26;border-bottom-color:#161b26}
+.sort button,.tabs button{background:#0000000f;color:#33405c}
+.sort button:hover,.tabs button:hover{background:#0000001c}
+.sort button[aria-pressed=true],.tabs button[aria-selected=true]{background:#161b26;color:#fff}
+.sort button:focus-visible,.tabs button:focus-visible,.more:focus-visible{outline-color:#161b26}
+.more{background:#00000012}
+.more:hover{background:#0000001f}
+.card{background:#fff;color:#161b26;box-shadow:0 1px 3px #0002}
+.card small{color:#5d6878}
+.card .tb{background:#dfe5ef}
+.cards .card:hover{box-shadow:0 14px 30px #0003,0 0 0 2px #00000030}
+}
 </style>
 </head>
 <body>
@@ -202,7 +226,7 @@ footer{text-align:center;color:var(--mute);font-size:.8rem;padding:.6rem}
   </section>
 </div>
 </main>
-<footer id="upd"></footer>
+<footer><div id="upd"></div><div class="credit">⚙️ created by Claude &amp; OrangeP1llow</div></footer>
 <script src="stats.js"></script>
 <script src="manual.js"></script>
 <script>
@@ -228,13 +252,13 @@ $("tA").textContent=fmt(psA+stA);
 $("tG").textContent=ps.length+st.length+p2.length+p3.length+xb.length;
 $("psSum").innerHTML=`<b>${fmt(psH)} h</b> (${dd(psH)}) · <b>${fmt(psA)}</b> trophies`;
 $("stSum").innerHTML=`<b>${fmt(stH)} h</b> (${dd(stH)}) · <b>${fmt(stA)}</b> achievements`;
-if(window.STATS&&window.STATS.updated)$("upd").textContent="Updated: "+new Date(window.STATS.updated).toLocaleDateString("en-GB");
+if(window.STATS&&window.STATS.updated){const d=new Date(window.STATS.updated),p=n=>String(n).padStart(2,"0");$("upd").textContent=`🔄 Updated: ${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`}
 /* One shared card for every platform */
 const cards=(a,full,limit)=>{
  if(!a.length)return `<div class="empty">Nothing here yet. Add games in manual.js</div>`;
  const list=limit?a.slice(0,limit):a;
  return `<div class="cats"><span class="on">Games</span><span>${a.length}</span></div><div class="cards">`+list.map((g,i)=>{
-  const meta=full&&g.h?`${f1(g.h)} h`+(g.t?` · ${g.a}/${g.t}`:""):"";
+  const meta=full?[g.h?`${f1(g.h)} h`:"",g.t?`${g.a}/${g.t}`:""].filter(Boolean).join(" · "):"";
   return `<div class="card" title="${esc(g.n)}" style="--c:${g.c||col[i%6]}"><div class="cvr">${g.img?`<img src="${esc(g.img)}" alt="" loading="lazy">`:`<b>${esc(g.n[0]||"?")}</b>`}</div><div class="bd"><b>${esc(g.n)}</b>${meta?`<small>${meta}</small>`:""}${full&&g.t?`<div class="tb"><i style="width:${g.a/g.t*100}%"></i></div>`:""}</div></div>`}).join("")+`</div>`;
 };
 /* PS5/PS4 */
