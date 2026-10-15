@@ -21,7 +21,7 @@ Live preview: [https://orangep1llow.github.io/WEB-played-games-aggregator/]
 ### 📜 Usage
 - **Open a panel** – Hover over it (desktop) or tap it (phone)
 - **Sort games** – Buttons above the cards in the Steam and PS5 / PS4 panels
-- **See the whole library** – "Show all N games" button under the cards
+- **See the whole library** – "Show all games" button under the cards
 - **Switch other platform** – Tabs inside the Other panel
 - **Add PS2 / PS3 / Xbox 360 / PSP / PC games** – Edit the lists in `manual.js`
 - **Refresh the data** – Run `node fetch.js` again
@@ -69,7 +69,7 @@ My Games Stats – це маленький статичний сайт, який
 ### 📜 Використання
 - **Відкрити панель** – Наведіть курсор (комп'ютер) або торкніться (телефон)
 - **Відсортувати ігри** – Кнопки над картками в панелях Steam і PS5 / PS4
-- **Побачити всю бібліотеку** – Кнопка «Show all N games» під картками
+- **Побачити всю бібліотеку** – Кнопка «Show all games» під картками
 - **Змінити іншу платформу** – Вкладки всередині панелі Other
 - **Додати ігри PS2 / PS3 / Xbox 360 / PSP / PC** – Змініть списки в `manual.js`
 - **Оновити дані** – Знову запустіть `node fetch.js`
