@@ -4,10 +4,10 @@
    {
     "appid": 730,
     "n": "Counter-Strike 2",
-    "h": 2930.3,
+    "h": 2932,
     "a": 1,
     "t": 1,
-    "last": 1791838874000,
+    "last": 1792188748000,
     "img": "covers/steam/730.jpg"
    },
    {
@@ -292,7 +292,7 @@
   ],
   "totals": {
    "games": 32,
-   "hours": 3304,
+   "hours": 3306,
    "achievements": 203
   }
  },
@@ -403,6 +403,14 @@
     "img": "covers/psn/NPWR10879_00.png"
    },
    {
+    "n": "Marvel's Spider-Man 2",
+    "h": 21.5,
+    "a": 23,
+    "t": 43,
+    "last": 1792013118580,
+    "img": "covers/psn/NPWR23378_00.png"
+   },
+   {
     "n": "UNCHARTED: Legacy of Thieves Collection",
     "h": 20.8,
     "a": 0,
@@ -425,14 +433,6 @@
     "t": 0,
     "last": 1755970837940,
     "img": "covers/psn/CUSA11395_00.png"
-   },
-   {
-    "n": "Marvel's Spider-Man 2",
-    "h": 18,
-    "a": 23,
-    "t": 43,
-    "last": 1792013118580,
-    "img": "covers/psn/NPWR23378_00.png"
    },
    {
     "n": "The Last of Us™ Remastered",
@@ -819,6 +819,14 @@
     "img": "covers/psn/NPWR06221_00.png"
    },
    {
+    "n": "HITMAN 3",
+    "h": 0,
+    "a": 7,
+    "t": 84,
+    "last": 1792354733000,
+    "img": "covers/psn/NPWR21820_00.png"
+   },
+   {
     "n": "Mafia III: Definitive Edition",
     "h": 0,
     "a": 6,
@@ -899,14 +907,6 @@
     "img": "covers/psn/NPWR15848_00.png"
    },
    {
-    "n": "HITMAN 3",
-    "h": 0,
-    "a": 0,
-    "t": 84,
-    "last": 1788120420000,
-    "img": "covers/psn/NPWR21820_00.png"
-   },
-   {
     "n": "FIFA 16",
     "h": 0,
     "a": 0,
@@ -933,12 +933,12 @@
   ],
   "ps3": [],
   "trophies": {
-   "bronze": 646,
-   "silver": 118,
+   "bronze": 652,
+   "silver": 119,
    "gold": 30,
    "platinum": 1
   },
-  "level": 202,
+  "level": 203,
   "apps": [
    {
     "n": "Spotify",
@@ -972,5 +972,5 @@
    }
   ]
  },
- "updated": "2026-10-15T15:31:27.978Z"
+ "updated": "2026-10-19T12:08:46.327Z"
 }
