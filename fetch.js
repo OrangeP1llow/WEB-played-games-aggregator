@@ -199,10 +199,12 @@ async function fetchPsn() {
 /* ---------------- main ---------------- */
 (async () => {
   const out = fs.existsSync("stats.json") ? JSON.parse(fs.readFileSync("stats.json", "utf8")) : {};
-  if (doSteam) { try { out.steam = await fetchSteam(); } catch (e) { console.error("Steam error:", e.message); } }
-  if (doPsn) { try { out.psn = await fetchPsn(); } catch (e) { console.error("PSN error:", e.message); } }
+  let failed = false; // lets automation (GitHub Actions) notice a broken platform
+  if (doSteam) { try { out.steam = await fetchSteam(); } catch (e) { failed = true; console.error("Steam error:", e.message); } }
+  if (doPsn) { try { out.psn = await fetchPsn(); } catch (e) { failed = true; console.error("PSN error:", e.message); } }
   out.updated = new Date().toISOString();
   fs.writeFileSync("stats.json", JSON.stringify(out, null, 1));
   fs.writeFileSync("stats.js", "window.STATS=" + JSON.stringify(out) + ";"); // read by index.html
   console.log("Saved stats.json and stats.js. Open index.html.");
+  if (failed) { console.error("Some platforms failed. Their previous data was kept."); process.exitCode = 1; }
 })();

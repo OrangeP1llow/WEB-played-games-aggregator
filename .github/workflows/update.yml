@@ -1,0 +1,54 @@
+name: Update stats
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"    # every Monday at 06:00 UTC
+  workflow_dispatch:       # adds a "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write          # lets the job commit the refreshed data
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Create config.json from secrets
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_ID: ${{ secrets.STEAM_ID }}
+          PSN_NPSSO: ${{ secrets.PSN_NPSSO }}
+        run: |
+          node -e 'require("fs").writeFileSync("config.json", JSON.stringify({steamApiKey: process.env.STEAM_API_KEY || "", steamId: process.env.STEAM_ID || "", psnNpsso: process.env.PSN_NPSSO || ""}))'
+
+      - name: Fetch Steam and PlayStation data
+        id: fetch
+        continue-on-error: true   # still commit whatever was fetched successfully
+        run: node fetch.js
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stats.js stats.json covers
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update stats"
+            git push
+          fi
+
+      - name: Report failure
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "::error::Steam or PSN failed. If it is PSN, the NPSSO token has probably expired: update the PSN_NPSSO secret."
+          exit 1
