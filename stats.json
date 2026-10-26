@@ -4,10 +4,10 @@
    {
     "appid": 730,
     "n": "Counter-Strike 2",
-    "h": 2932,
+    "h": 2937.6,
     "a": 1,
     "t": 1,
-    "last": 1792188748000,
+    "last": 1792879622000,
     "img": "covers/steam/730.jpg"
    },
    {
@@ -177,7 +177,7 @@
     "n": "Call of Duty®",
     "h": 2.6,
     "a": 0,
-    "t": 157,
+    "t": 175,
     "last": 1760719361000,
     "img": "covers/steam/1938090.jpg"
    },
@@ -292,7 +292,7 @@
   ],
   "totals": {
    "games": 32,
-   "hours": 3306,
+   "hours": 3311,
    "achievements": 203
   }
  },
@@ -803,6 +803,14 @@
     "img": "covers/psn/NPWR19785_00.png"
    },
    {
+    "n": "HITMAN 3",
+    "h": 0,
+    "a": 13,
+    "t": 84,
+    "last": 1792786781000,
+    "img": "covers/psn/NPWR21820_00.png"
+   },
+   {
     "n": "Uncharted 4: A Thief’s End™",
     "h": 0,
     "a": 11,
@@ -817,14 +825,6 @@
     "t": 78,
     "last": 1627900933000,
     "img": "covers/psn/NPWR06221_00.png"
-   },
-   {
-    "n": "HITMAN 3",
-    "h": 0,
-    "a": 7,
-    "t": 84,
-    "last": 1792354733000,
-    "img": "covers/psn/NPWR21820_00.png"
    },
    {
     "n": "Mafia III: Definitive Edition",
@@ -933,7 +933,7 @@
   ],
   "ps3": [],
   "trophies": {
-   "bronze": 652,
+   "bronze": 658,
    "silver": 119,
    "gold": 30,
    "platinum": 1
@@ -972,5 +972,5 @@
    }
   ]
  },
- "updated": "2026-10-19T12:14:49.389Z"
+ "updated": "2026-10-26T11:51:35.328Z"
 }
