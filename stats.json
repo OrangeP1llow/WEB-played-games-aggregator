@@ -4,10 +4,10 @@
    {
     "appid": 730,
     "n": "Counter-Strike 2",
-    "h": 2937.6,
+    "h": 2947.5,
     "a": 1,
     "t": 1,
-    "last": 1792879622000,
+    "last": 1793575030000,
     "img": "covers/steam/730.jpg"
    },
    {
@@ -292,7 +292,7 @@
   ],
   "totals": {
    "games": 32,
-   "hours": 3311,
+   "hours": 3321,
    "achievements": 203
   }
  },
@@ -659,6 +659,14 @@
     "img": "covers/psn/NPWR16731_00.png"
    },
    {
+    "n": "DRIVECLUB™",
+    "h": 0.9,
+    "a": 4,
+    "t": 128,
+    "last": 1793453419290,
+    "img": "covers/psn/NPWR05254_00.png"
+   },
+   {
     "n": "Mortal Kombat 1",
     "h": 0.9,
     "a": 0,
@@ -805,9 +813,9 @@
    {
     "n": "HITMAN 3",
     "h": 0,
-    "a": 13,
+    "a": 14,
     "t": 84,
-    "last": 1792786781000,
+    "last": 1793127285000,
     "img": "covers/psn/NPWR21820_00.png"
    },
    {
@@ -907,6 +915,14 @@
     "img": "covers/psn/NPWR15848_00.png"
    },
    {
+    "n": "Mafia: The Old Country",
+    "h": 0,
+    "a": 0,
+    "t": 63,
+    "last": 1793529921000,
+    "img": "covers/psn/NPWR38792_00.png"
+   },
+   {
     "n": "FIFA 16",
     "h": 0,
     "a": 0,
@@ -933,8 +949,8 @@
   ],
   "ps3": [],
   "trophies": {
-   "bronze": 658,
-   "silver": 119,
+   "bronze": 662,
+   "silver": 120,
    "gold": 30,
    "platinum": 1
   },
@@ -972,5 +988,5 @@
    }
   ]
  },
- "updated": "2026-10-26T11:51:35.328Z"
+ "updated": "2026-11-02T13:47:21.616Z"
 }
