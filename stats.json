@@ -4,10 +4,10 @@
    {
     "appid": 730,
     "n": "Counter-Strike 2",
-    "h": 2930.3,
+    "h": 2947.5,
     "a": 1,
     "t": 1,
-    "last": 1791838874000,
+    "last": 1793575030000,
     "img": "covers/steam/730.jpg"
    },
    {
@@ -177,7 +177,7 @@
     "n": "Call of Duty®",
     "h": 2.6,
     "a": 0,
-    "t": 157,
+    "t": 175,
     "last": 1760719361000,
     "img": "covers/steam/1938090.jpg"
    },
@@ -292,7 +292,7 @@
   ],
   "totals": {
    "games": 32,
-   "hours": 3304,
+   "hours": 3321,
    "achievements": 203
   }
  },
@@ -403,6 +403,14 @@
     "img": "covers/psn/NPWR10879_00.png"
    },
    {
+    "n": "Marvel's Spider-Man 2",
+    "h": 21.5,
+    "a": 23,
+    "t": 43,
+    "last": 1792013118580,
+    "img": "covers/psn/NPWR23378_00.png"
+   },
+   {
     "n": "UNCHARTED: Legacy of Thieves Collection",
     "h": 20.8,
     "a": 0,
@@ -425,14 +433,6 @@
     "t": 0,
     "last": 1755970837940,
     "img": "covers/psn/CUSA11395_00.png"
-   },
-   {
-    "n": "Marvel's Spider-Man 2",
-    "h": 18,
-    "a": 23,
-    "t": 43,
-    "last": 1792013118580,
-    "img": "covers/psn/NPWR23378_00.png"
    },
    {
     "n": "The Last of Us™ Remastered",
@@ -659,6 +659,14 @@
     "img": "covers/psn/NPWR16731_00.png"
    },
    {
+    "n": "DRIVECLUB™",
+    "h": 0.9,
+    "a": 4,
+    "t": 128,
+    "last": 1793453419290,
+    "img": "covers/psn/NPWR05254_00.png"
+   },
+   {
     "n": "Mortal Kombat 1",
     "h": 0.9,
     "a": 0,
@@ -803,6 +811,14 @@
     "img": "covers/psn/NPWR19785_00.png"
    },
    {
+    "n": "HITMAN 3",
+    "h": 0,
+    "a": 14,
+    "t": 84,
+    "last": 1793127285000,
+    "img": "covers/psn/NPWR21820_00.png"
+   },
+   {
     "n": "Uncharted 4: A Thief’s End™",
     "h": 0,
     "a": 11,
@@ -899,12 +915,12 @@
     "img": "covers/psn/NPWR15848_00.png"
    },
    {
-    "n": "HITMAN 3",
+    "n": "Mafia: The Old Country",
     "h": 0,
     "a": 0,
-    "t": 84,
-    "last": 1788120420000,
-    "img": "covers/psn/NPWR21820_00.png"
+    "t": 63,
+    "last": 1793529921000,
+    "img": "covers/psn/NPWR38792_00.png"
    },
    {
     "n": "FIFA 16",
@@ -933,12 +949,12 @@
   ],
   "ps3": [],
   "trophies": {
-   "bronze": 646,
-   "silver": 118,
+   "bronze": 662,
+   "silver": 120,
    "gold": 30,
    "platinum": 1
   },
-  "level": 202,
+  "level": 203,
   "apps": [
    {
     "n": "Spotify",
@@ -972,5 +988,5 @@
    }
   ]
  },
- "updated": "2026-10-15T15:31:27.978Z"
+ "updated": "2026-11-02T14:11:54.413Z"
 }
