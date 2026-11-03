@@ -627,6 +627,14 @@
     "img": "covers/psn/NPWR28014_00.png"
    },
    {
+    "n": "DRIVECLUB™",
+    "h": 1.5,
+    "a": 8,
+    "t": 128,
+    "last": 1793651952330,
+    "img": "covers/psn/NPWR05254_00.png"
+   },
+   {
     "n": "Rocket League®",
     "h": 1.2,
     "a": 4,
@@ -657,14 +665,6 @@
     "t": 38,
     "last": 1755366568000,
     "img": "covers/psn/NPWR16731_00.png"
-   },
-   {
-    "n": "DRIVECLUB™",
-    "h": 0.9,
-    "a": 4,
-    "t": 128,
-    "last": 1793453419290,
-    "img": "covers/psn/NPWR05254_00.png"
    },
    {
     "n": "Mortal Kombat 1",
@@ -813,9 +813,9 @@
    {
     "n": "HITMAN 3",
     "h": 0,
-    "a": 14,
+    "a": 15,
     "t": 84,
-    "last": 1793127285000,
+    "last": 1793649014000,
     "img": "covers/psn/NPWR21820_00.png"
    },
    {
@@ -949,8 +949,8 @@
   ],
   "ps3": [],
   "trophies": {
-   "bronze": 662,
-   "silver": 120,
+   "bronze": 666,
+   "silver": 121,
    "gold": 30,
    "platinum": 1
   },
@@ -988,5 +988,5 @@
    }
   ]
  },
- "updated": "2026-11-02T14:11:54.413Z"
+ "updated": "2026-11-03T11:07:26.966Z"
 }
